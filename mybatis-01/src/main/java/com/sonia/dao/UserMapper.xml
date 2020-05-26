@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sonia.dao.UserDao">
+    <!--namespace绑定接口-->
+    <!--id绑定方法-->
+    <!--返回值类型专注于接口的返回值-->
+    <!--sql语句中mybatis.user,之所以要写成这样是因为我在idea中连接了数据库,所以,总结以下就是,如果在idea中连接了数据库,就用数据库名加表名,没有连接数据库就用表名就好了   -->
+    <select id="getUser" resultType="com.sonia.user.User">
+        select * from mybatis.user
+    </select>
+</mapper>
