@@ -2,12 +2,32 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sonia.dao.UserDao">
+<mapper namespace="com.sonia.dao.UserMapper">
     <!--namespace绑定接口-->
     <!--id绑定方法-->
     <!--返回值类型专注于接口的返回值-->
     <!--sql语句中mybatis.user,之所以要写成这样是因为我在idea中连接了数据库,所以,总结以下就是,如果在idea中连接了数据库,就用数据库名加表名,没有连接数据库就用表名就好了   -->
+    <!--select查询语句-->
     <select id="getUser" resultType="com.sonia.user.User">
         select * from mybatis.user
     </select>
+
+    <!--select根据id查询用户-->
+    <select id="getUserById" resultType="com.sonia.user.User" parameterType="_Integer">
+        select * from mybatis.user where id = #{id};
+    </select>
+
+    <!--插入一个用户-->
+    <insert id="insertUser" parameterType="com.sonia.user.User">
+        insert into mybatis.user(id, name, pwd) values (#{id},#{name},#{pwd});
+    </insert>
+
+    <!--修改一个用户-->
+    <!--/*用and报错 Data truncation: Truncated incorrect DOUBLE value: 'son'*/
+        /*update mybatis.user set name = #{name} and pwd = #{pwd} where id = #{id};*/
+       /* update mybatis.user set name = #{name}, pwd = #{pwd} where id = #{id};*/
+       这个注释我要写在这里的原因是因为如果写在update标签里面就会出错-->
+    <update id="updateUser" parameterType="com.sonia.user.User">
+        update mybatis.user set name=#{name}, pwd=#{pwd} where id=#{id};
+    </update>
 </mapper>

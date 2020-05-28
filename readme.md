@@ -1,4 +1,4 @@
-##1.入门
+## 1.入门,第一个Mybatis程序
 - 在这里我遇到过的坑:
 
     - 1.org.apache.ibatis.binding.BindingException: Type interface com.sonia.dao.UserDao is not known to the MapperRegistry.
@@ -16,6 +16,24 @@
 - 如何配置mabatis-config(mybatis核心配置文件)中的datasource:
     - 步骤一 连接数据库:右侧任务栏中点击database,出现的+号选择datasource,在datasource中找到mysql,在general中输入相应的用户名和密码,就可以登陆
     - 步骤二 获取url:连接数据库之后,点击刚刚登陆界面的schemas,在里面找到我们要连接的database,得到这个url,不过url后面还要加上具体的数据库和其他一些参数信息,包括useSSL,useUnicode,characterencoding,最新版好像还要配置时区;
+
+
+## CRUD
+
+####1.namespace
+namespace中的包名需要和Dao/Mapper接口的包名一致;
+
+####2.select
+- id:就是对应的namespace的方法名
+
+- resultType:是Sql语句的返回值
+
+- paramterType:对应的namespace的参数
+
+####注意点:
+- 增删改需要提交事物,不提交事物没有办法成功
+
+- 在标签()里面不可以出现/* */
     
     
     

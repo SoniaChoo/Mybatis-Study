@@ -29,3 +29,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### DB ###
+mybatis-01/src/main/resources/mybatis-config.xml
