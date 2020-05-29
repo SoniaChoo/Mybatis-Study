@@ -10,17 +10,18 @@ import java.io.InputStream;
 
 public class UserUtil {
     private static SqlSessionFactory sqlSessionFactory;
-    static {
-        String resource = "mybatis-config.xml";
-        InputStream inputStream = null;
+    static{
         try {
-            inputStream = Resources.getResourceAsStream(resource);
+            String resource = "mybatis-config.xml";
+            InputStream inputStream = Resources.getResourceAsStream(resource);
+            sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
         } catch (IOException e) {
             e.printStackTrace();
         }
-         sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
     }
-    public static SqlSession getSqlSession() {
+
+
+    public static SqlSession getSqlSession(){
         return sqlSessionFactory.openSession();
     }
 }

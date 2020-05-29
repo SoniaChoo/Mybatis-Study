@@ -21,6 +21,6 @@ public class UserUtil {
          sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
     }
     public static SqlSession getSqlSession() {
-        return sqlSessionFactory.openSession();
+        return sqlSessionFactory.openSession(true);
     }
 }

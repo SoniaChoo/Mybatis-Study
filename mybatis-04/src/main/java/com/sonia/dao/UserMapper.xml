@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sonia.dao.UserMapper">
+
+    <!--解决字段和属性名不匹配方式一:select根据id查询用户-->
+    <!--<select id="getUserById" resultType="user" parameterType="_Integer">
+        select id,name as haha ,pwd as hehe from mybatis.user where id = #{id};
+    </select>-->
+
+    <!--解决字段和属性名不匹配方式二-->
+    <select id="getUserById" resultMap="UserMap">
+        select * from mybatis.user where id = #{id}
+    </select>
+
+    <resultMap id="UserMap" type="user">
+        <result column="name" property="name"></result>
+        <result column="pwd" property="pwd"></result>
+    </resultMap>
+
+    <!--根据limit分页查找-->
+    <select id="getUserByLimit" parameterType="map" resultType="user">
+        select * from mybatis.user limit #{startIndex},#{pageSize};
+    </select>
+
+    <!--使用rowbounds分页-->
+    <select id="getUserByRowbounds" resultType="user">
+        select * from mybatis.user;
+    </select>
+
+
+</mapper>

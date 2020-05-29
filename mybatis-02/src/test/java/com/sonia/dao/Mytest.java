@@ -1,13 +1,10 @@
-package com.sonia.Mytest;
+package com.sonia.dao;
 
-import com.sonia.dao.UserMapper;
-import com.sonia.user.User;
+import com.sonia.pojo.User;
 import com.sonia.util.UserUtil;
 import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.Test;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class Mytest {
@@ -32,29 +29,6 @@ public class Mytest {
         sqlSession.close();
     }
 
-    @Test
-    public  void getUserById2() {
-        SqlSession sqlSession = UserUtil.getSqlSession();
-        HashMap<String, Integer> map = new HashMap<String, Integer>();
-        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-        map.put("helloid", 1);
-        User userById2 = mapper.getUserById2(map);
-        System.out.println(userById2);
-        sqlSession.close();
-    }
-
-    @Test
-    public void getUserByLikeTest(){
-        SqlSession sqlSession = UserUtil.getSqlSession();
-        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("name","n");
-        List<User> userByLike = mapper.getUserByLike(map);
-        for (User user : userByLike) {
-            System.out.println(user);
-        }
-        sqlSession.close();
-    }
 
     @Test
     //增删改需要提交事物,不提交事物没有办法成功
@@ -69,19 +43,6 @@ public class Mytest {
         sqlSession.close();
     }
 
-    @Test
-    public void insertUser2Test() {
-        SqlSession sqlSession = UserUtil.getSqlSession();
-        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-        HashMap<String,Object> map = new HashMap<String, Object>();
-        map.put("id",7);
-        map.put("name","hello");
-       // map.put("password","123456");
-        int i = mapper.insertUser2(map);
-        System.out.println(i);
-        sqlSession.commit();
-        sqlSession.close();
-    }
 
     @Test
     public void updateUserTest() {

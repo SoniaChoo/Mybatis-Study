@@ -8,36 +8,19 @@
     <!--返回值类型专注于接口的返回值-->
     <!--sql语句中mybatis.user,之所以要写成这样是因为我在idea中连接了数据库,所以,总结以下就是,如果在idea中连接了数据库,就用数据库名加表名,没有连接数据库就用表名就好了   -->
     <!--select查询语句-->
-    <select id="getUser" resultType="com.sonia.user.User">
+    <select id="getUser" resultType="user">
         select * from mybatis.user
     </select>
 
     <!--select根据id查询用户-->
-    <select id="getUserById" resultType="com.sonia.user.User" parameterType="_Integer">
+    <select id="getUserById" resultType="com.sonia.pojo.User" parameterType="_Integer">
         select * from mybatis.user where id = #{id};
     </select>
 
 
-    <!--select根据map查询用户-->
-    <select id="getUserById2" resultType="com.sonia.user.User" parameterType="map">
-        select * from mybatis.user where id = #{helloid}
-    </select>
-
-    <!--s使用like进行模糊查询-->
-    <!-- select * from mybatis.user where name like concat('%'#{name}'%');-->
-    <select id="getUserByLike" resultType="com.sonia.user.User" parameterType="map">
-        select * from mybatis.user where name like  concat("%"#{name}"%");
-    </select>
-
     <!--插入一个用户-->
-    <insert id="insertUser" parameterType="com.sonia.user.User">
+    <insert id="insertUser" parameterType="com.sonia.pojo.User">
         insert into mybatis.user(id, name, pwd) values (#{id},#{name},#{pwd});
-    </insert>
-
-
-    <!--如果使用了万能的map,那么values后面传入的值不需要和User实体中的属性对应,也不需要和数据库中的字段对应,只需要和test中传入的map的key对应就可以了-->
-    <insert id="insertUser2" parameterType="map">
-        insert into mybatis.user(id, name, pwd) values (#{id}, #{name}, #{password});
     </insert>
 
     <!--修改一个用户-->
@@ -45,7 +28,7 @@
         /*update mybatis.user set name = #{name} and pwd = #{pwd} where id = #{id};*/
        /* update mybatis.user set name = #{name}, pwd = #{pwd} where id = #{id};*/
        这个注释我要写在这里的原因是因为如果写在update标签里面就会出错-->
-    <update id="updateUser" parameterType="com.sonia.user.User">
+    <update id="updateUser" parameterType="com.sonia.pojo.User">
         update mybatis.user set name=#{name}, pwd=#{pwd} where id=#{id};
     </update>
 

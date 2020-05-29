@@ -31,4 +31,7 @@ build/
 .vscode/
 
 ### DB ###
-mybatis-01/src/main/resources/mybatis-config.xml
+mybatis-config.xml
+db.properties
+
+### properties ###
