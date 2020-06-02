@@ -33,5 +33,7 @@ build/
 ### DB ###
 mybatis-config.xml
 db.properties
+**/log/**
+.log
 
 ### properties ###

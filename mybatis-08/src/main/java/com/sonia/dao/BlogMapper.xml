@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD apper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sonia.dao.BlogMapper">
+    <insert id="insertBlog" parameterType="Blog">
+        insert into mybatis.blog(id, title, author, create_time, views) VALUES (#{id},#{title},#{author},#{createTime},#{views});
+    </insert>
+    
+    <sql id="if-author-title">
+        <if test="title != null">
+            and title=#{title}
+        </if>
+        <if test="author != null">
+            and author = #{author}
+        </if>
+    </sql>
+
+    <select id="selectBlogIf" parameterType="map" resultType="blog">
+        select * from mybatis.blog where 1=1
+        <include refid="if-author-title"></include>
+    </select>
+
+    <select id="selectBlogChoose" parameterType="map" resultType="blog">
+        select * from mybatis.blog
+        <where>
+            <choose>
+                <when test="title != null">
+                     title = #{title}
+                </when>
+                <when test="author != null">
+                    and author = #{author}
+                </when>
+                <otherwise>
+                    and views = #{views}
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <!--collection怎么写,我们可以传递一个万能的map,这个map中可以存在一个集合
+    注意,开头的open可以是and (也可是单独的(
+    &lt;!&ndash;id=#{id},如果写成#{id},就是查询全部了&ndash;&gt;
+    <select id="selectBlogForEach" parameterType="map" resultType="blog">
+        select * from mybatis.blog
+        <where>
+            <foreach collection="ids" item="id" open="(" separator="or" close=")">
+               id=#{id}
+            </foreach>
+        </where>
+    </select>-->
+
+    <select id="selectBlogForEach" parameterType="map" resultType="blog">
+        select * from mybatis.blog where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+</mapper>

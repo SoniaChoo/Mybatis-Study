@@ -434,7 +434,237 @@ pageHelper:https://pagehelper.github.io/
  
  - 方法存在多个参数,所有的参数前面必须加上@Param("id")
  ```java
-@Select("select * from user where id= #{id}")
-     User getUserById(@Param("id") int id);
+@Select("select * from user where id= #{uid}")
+     User getUserById(@Param("uid") int id);
+```
+注解@param中的参数名称和sql语句中的参数名称要一样
+
+
+#### 关于@param()的注解:
+- 基本类型的参数或者String类型,需要加上
+- 引用类型不需要加
+- 如果只有一个基本类型的话,可以忽略,但是建议大家都加上
+- 我们在SQL中引用的就是我们这里在@Param()中设定的属性名
+
+## 10 Lombok
+
+使用步骤:
+- 在idea中安装lombok插件
+- 在项目中导入lombok的jar包
+```xml
+<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+<dependency>
+    <groupId>org.projectlombok</groupId>
+    <artifactId>lombok</artifactId>
+    <version>1.18.12</version>
+    <scope>provided</scope>
+</dependency>
+```
+- 3.在实体类上加注解即可
+    -  @Getter and @Setter
+    -  @FieldNameConstants
+    -  @ToString
+    -  @EqualsAndHashCode
+    -  @AllArgsConstructor, @RequiredArgsConstructor and @NoArgsConstructor
+    -  @Log, @Log4j, @Log4j2, @Slf4j, @XSlf4j, @CommonsLog, @JBossLog, @Flogger, @CustomLog
+    -  @Data
+    -  @Builder
+    -  @SuperBuilder
+    -  @Singular
+    -  @Delegate
+    -  @Value
+    -  @Accessors
+    -  @Wither
+    -  @With
+    -  @SneakyThrows
+    -  @val
+    -  @var
+    -  experimental @var
+    -  @UtilityClass
+    -  Lombok config system
+    
+- 最常用的:
+
+    - @Data注解在类上，会为类的所有属性自动生成setter/getter、equals、canEqual、hashCode、toString方法，如为final属性，则不会为该属性生成setter方法。    
+    - @NoArgsConstructor
+    - @AllArgsConstructor
+    - @ToString
+    
+## 11 多对一处理(mybatis-06)
+
+多对一的时候都是javaType
+
+- 例子:多个学生对应一个老师    
+
+    - 对于学生:多对一(关联)
+    - 对于老师:一对多(集合)
+
+#### 11.1  测试环境搭建
+
+- 1.导入lombok依赖包
+- 2.创建实体类
+- 3.创建Mapper接口
+- 4.使用注解写sql语句或者Mapper.xml文件
+- 5. 在核心配置文件中注册第四步的接口或者文件
+- 6. 测试 
+
+#### 11.2 子查询(按照查询嵌套处理)
+```xml
+<mapper namespace="com.sonia.dao.StudentMapper">
+    <!--1.查询所有的学生信息
+        2.根据查询出来的学生的tid去寻找对应的老师
+        子查询-->
+
+    <select id="getStudent" resultMap="StudentTeacher">
+        select * from mybatis.student;
+    </select>
+
+    <resultMap id="StudentTeacher" type="com.sonia.pojo.Student">
+        <id property="id" column="id"></id>
+        <result property="name" column="name"></result>
+        <!--复杂的属性我们需要单独处理
+        对象使用:association
+        集合使用:collection-->
+        <association property="teacher" column="tid" javaType="com.sonia.pojo.Teacher" select="getTeacher">
+        </association>
+    </resultMap>
+
+    <select id="getTeacher" resultType="com.sonia.pojo.Teacher">
+        select * from mybatis.teacher where id = #{tid};
+    </select>
+</mapper>
+```
+
+#### 11.3 联表查询(按照结果查询嵌套处理)
+
+```xml
+<!--按照结果嵌套查询-->
+<mapper namespace="com.sonia.dao.StudentMapper">
+    <select id="getStudent" resultMap="StudentByTeacher">
+        select s.id sid, s.name sname, t.name tname from mybatis.student s, mybatis.teacher t where s.tid=t.id;
+    </select>
+
+    <resultMap id="StudentByTeacher" type="com.sonia.pojo.Student">
+        <id property="id" column="sid"></id>
+        <result property="name" column="sname"></result>
+        <association property="teacher" javaType="com.sonia.pojo.Teacher">
+            <result property="name" column="tname"></result>
+        </association>
+    </resultMap>
+</mapper>
+```
+
+## 12 一对多(mybatis-07)
+    一对多的时候都是ofType
+1.环境搭建,和刚才一样
+
+2.按结果嵌套:
+```xml
+<mapper namespace="com.sonia.dao.TeacherMapper">
+    <!--<select id="getTeacher" resultType="com.sonia.pojo.Teacher">
+        select  * from mybatis.teacher;
+    </select>-->
+<!--按结果嵌套查询:
+1.注意点:取别名
+2.ofType-->
+    <select id="getTeacher" resultMap="TeacherStudent">
+        select s.id sid, s.name sname, t.name tname, t.id tid from mybatis.teacher t ,mybatis.student s where s.tid = t.id and t.id = #{tid};
+    </select>
+    <resultMap id="TeacherStudent" type="Teacher">
+        <result property="id" column="tid"></result>
+        <result property="name" column="tname"></result>
+        <collection property="students" ofType="com.sonia.pojo.Student">
+            <result property="id" column="sid"></result>
+            <result property="name" column="sname"></result>
+            <!--<result property="id" column="tid"></result>-->
+        </collection>
+    </resultMap>
+</mapper>
+```
+
+3.按查询嵌套
+
+```xml
+<!--按查询嵌套-->
+    <select id="getTeacher" resultMap="TeacherStudent">
+        select * from mybatis.teacher where id = #{tid};
+    </select>
+
+    <resultMap id="TeacherStudent" type="com.sonia.pojo.Teacher">
+        <collection property="students" ofType="Student" select="getStudent" column="id"></collection>
+    </resultMap>
+
+
+
+    <select id="getStudent" resultType="com.sonia.pojo.Student">
+        select * from mybatis.student where tid = #{tid};
+    </select>
+```
+
+## 13 动态SQL(mybatis-08)
+
+#### 13.1 SQL片段
+- 使用sql标签抽取公共部分
+- 在需要使用的地方使用Include标签引用即可
+- 注意事项:最好基于单表定义SQL片段, 不要存在where标签,因为where和set有优化功能
+```xml
+<sql id="if-author-title">
+        <if test="title != null">
+            and title=#{title}
+        </if>
+        <if test="author != null">
+            and author = #{author}
+        </if>
+    </sql>
+
+    <select id="selectBlogIf" parameterType="map" resultType="blog">
+        select * from mybatis.blog where 1=1
+        <include refid="if-author-title"></include>
+    </select>
+```
+
+#### 13.2 foreach
+方式一:
+```xml
+<!--collection怎么写,我们可以传递一个万能的map,这个map中可以存在一个集合
+    注意,开头的open可以是and (也可是单独的(-->
+    <!--id=#{id},如果写成#{id},就是查询全部了-->
+    <select id="selectBlogForEach" parameterType="map" resultType="blog">
+        select * from mybatis.blog
+        <where>
+            <foreach collection="ids" item="id" open="(" separator="or" close=")">
+               id=#{id}
+            </foreach>
+        </where>
+    </select>
+```
+
+方式二:
+```xml
+<select id="selectBlogForEach" parameterType="map" resultType="blog">
+        select * from mybatis.blog where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+```
+
+测试:
+```java
+@Test
+    public void selectBlogForEachTest(){
+        SqlSession sqlSession = UserUtil.getSqlSession();
+        BlogMapper mapper = sqlSession.getMapper(BlogMapper.class);
+        HashMap map = new HashMap();
+        ArrayList<Integer> ids = new ArrayList<Integer>();
+        ids.add(1);
+        //ids.add(2);
+        map.put("ids",ids);
+        List<Blog> blogs = mapper.selectBlogForEach(map);
+        for (Blog blog : blogs) {
+            System.out.println(blog);
+        }
+        sqlSession.close();
+    }
 ```
 
