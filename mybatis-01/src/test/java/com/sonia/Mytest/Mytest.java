@@ -6,11 +6,17 @@ import com.sonia.util.UserUtil;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import java.util.HashMap;
 import java.util.List;
 
 public class Mytest {
+    @Test
+    public void testFact() {
+        assertEquals(1, 2);
+    }
+
     @Test
     public void getUserTest(){
         SqlSession sqlSession = UserUtil.getSqlSession();
