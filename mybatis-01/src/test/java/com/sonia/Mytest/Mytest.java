@@ -61,9 +61,9 @@ public class Mytest {
     public void insertUserTest() {
         SqlSession sqlSession = UserUtil.getSqlSession();
         UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-        int 猪猪 = mapper.insertUser(new User(4, "猪猪", "123456"));
+        int zzz = mapper.insertUser(new User(4, "猪猪", "123456"));
         /*注意哈:这里返回的是影响的行数*/
-        System.out.println(猪猪);
+        System.out.println(zzz);
         //提交事务(非常非常重要!)
         sqlSession.commit();
         sqlSession.close();
