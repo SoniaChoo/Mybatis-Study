@@ -7,11 +7,11 @@ jobs: # a collection of steps
     docker: # run the steps with Docker
       - image: circleci/openjdk:8-jdk-stretch # ...with this image as the primary container; this is where all `steps` will run
       - image: circleci/mysql:8.0.4
-          environment:
-            MYSQL_ROOT_PASSWORD: qq@982709437
-            MYSQL_DATABASE: mybatis
-            MYSQL_USER: user
-            MYSQL_PASSWORD: qq@982709437
+        environment:
+          - MYSQL_ROOT_PASSWORD: qq@982709437
+          - MYSQL_DATABASE: mybatis
+          - MYSQL_USER: user
+          - MYSQL_PASSWORD: qq@982709437
 
     steps:
       - checkout
@@ -30,8 +30,8 @@ jobs: # a collection of steps
           name: Install MySQL CLI; Import dummy data; run an example query
           command: |
             sudo apt-get install default-mysql-client
-            mysql -h 127.0.0.1 -u user -pqq@982709437 mybatis < sql-data/dummy.sql
-            mysql -h 127.0.0.1 -u user -pqq@982709437 --execute="SELECT * FROM test_db.Persons"
+            mysql -h 127.0.0.1 -u user -pqq@982709437 mybatis < mybatis.sql
+            mysql -h 127.0.0.1 -u user -pqq@982709437 --execute="SELECT * FROM mybatis.user"
 
   test:
     working_directory: ~/circleci-demo-java-spring # directory where steps will run
