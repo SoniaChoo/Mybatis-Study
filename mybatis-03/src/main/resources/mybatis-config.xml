@@ -17,15 +17,6 @@
         <property name="password" value="qq@982709437"/>
     </properties>
 
-    <!--设置日志,name千万不要写错了,比如写成LogImpl或者出现空格-->
-    <!--<settings>
-        <setting name="logImpl" value="STDOUT_LOGGING"/>
-    </settings>-->
-
-    <!--记得导包-->
-    <settings>
-        <setting name="logImpl" value="LOG4J"/>
-    </settings>
 
     <!--设置别名-->
     <typeAliases>
@@ -55,7 +46,16 @@
         </environment>-->
     </environments>
 
-
+   <!-- 以下这个是错误示范:
+   1.不能用.,需要用/,
+   2.注册的是接口实现类或者是xml文件,而不是接口
+    <mappers>
+        <mapper resource="com.sonia.dao.UserMapper"></mapper>
+    </mappers>-->
+    <!--mapper.xml注册方式一-->
+    <mappers>
+        <mapper resource="com/sonia/dao/UserMapper.xml"></mapper>
+    </mappers>
 
 
     <!--mapper.xml注册方式二:注意点:非注解方式下需要同包同名-->
@@ -64,9 +64,9 @@
     </mappers>-->
 
     <!--mapper.xml注册方式三:注意点:非注解方式下需要同包同名-->
-    <mappers>
+    <!--<mappers>
         <mapper class="com.sonia.dao.UserMapper"></mapper>
-    </mappers>
+    </mappers>-->
 
 </configuration>
 

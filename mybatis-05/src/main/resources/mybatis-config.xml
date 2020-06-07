@@ -13,8 +13,6 @@
 然后根据 properties 元素中的 resource 属性读取类路径下属性文件，或根据 url 属性指定的路径读取属性文件，并覆盖之前读取过的同名属性。
 最后读取作为方法参数传递的属性，并覆盖之前读取过的同名属性。
 因此，通过方法参数传递的属性具有最高优先级，resource/url 属性中指定的配置文件次之，最低优先级的则是 properties 元素中指定的属性。-->
-        <property name="username" value="user"/>
-        <property name="password" value="qq@982709437"/>
     </properties>
 
     <!--设置日志,name千万不要写错了,比如写成LogImpl或者出现空格-->
@@ -55,7 +53,16 @@
         </environment>-->
     </environments>
 
-
+   <!-- 以下这个是错误示范:
+   1.不能用.,需要用/,
+   2.注册的是接口实现类或者是xml文件,而不是接口
+    <mappers>
+        <mapper resource="com.sonia.dao.UserMapper"></mapper>
+    </mappers>-->
+    <!--mapper.xml注册方式一-->
+    <!--<mappers>
+        <mapper resource="com/sonia/dao/UserMapper.xml"></mapper>
+    </mappers>-->
 
 
     <!--mapper.xml注册方式二:注意点:非注解方式下需要同包同名-->

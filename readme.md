@@ -136,7 +136,7 @@ select * from mybatis.user where name like '%'#{name}'%';
 ```properties
 driver=com.mysql.jdbc.Driver
 url= jdbc:mysql://127.0.0.1:3306/mybatis?useSSL=false&useUnicode=true&characterEncoding=UTF-8
-username=root
+username=user
 pasword=qq@982709437
 ```    
 - 2.在核心配置文件中引用(在xml中,所有的标签都有其规定的顺序):

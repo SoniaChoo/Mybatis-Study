@@ -64,9 +64,9 @@
     </mappers>-->
 
     <!--mapper.xml注册方式三:注意点:非注解方式下需要同包同名-->
-    <mappers>
+    <!--<mappers>
         <mapper class="com.sonia.dao.UserMapper"></mapper>
-    </mappers>
+    </mappers>-->
 
 </configuration>
 
