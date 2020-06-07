@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!--引入外部配置文件-->
+    <properties resource="db.properties">
+        <!--注意,如果内部配置和外部properties文件有冲突的话,优先使用外部配置文件-->
+        <!--官方原文:如果一个属性在不只一个地方进行了配置，那么，MyBatis 将按照下面的顺序来加载：
+
+首先读取在 properties 元素体内指定的属性。
+然后根据 properties 元素中的 resource 属性读取类路径下属性文件，或根据 url 属性指定的路径读取属性文件，并覆盖之前读取过的同名属性。
+最后读取作为方法参数传递的属性，并覆盖之前读取过的同名属性。
+因此，通过方法参数传递的属性具有最高优先级，resource/url 属性中指定的配置文件次之，最低优先级的则是 properties 元素中指定的属性。-->
+        <property name="username" value="user"/>
+        <property name="password" value="qq@982709437"/>
+    </properties>
+
+
+    <!--设置别名-->
+    <typeAliases>
+        <package name="com.sonia.pojo"/>
+    </typeAliases>
+
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${pwd}"/>
+            </dataSource>
+        </environment>
+
+        <!--<environment id="remote">
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://18.163.127.10:3306/mybatis?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8"/>
+                <property name="username" value="root"/>
+                <property name="password" value="mysql@982709437"/>
+            </dataSource>
+        </environment>-->
+    </environments>
+
+   <!-- 以下这个是错误示范:
+   1.不能用.,需要用/,
+   2.注册的是接口实现类或者是xml文件,而不是接口
+    <mappers>
+        <mapper resource="com.sonia.dao.UserMapper"></mapper>
+    </mappers>-->
+    <!--mapper.xml注册方式一-->
+    <!--<mappers>
+        <mapper resource="com/sonia/dao/UserMapper.xml"></mapper>
+    </mappers>-->
+
+
+    <!--mapper.xml注册方式二:注意点:非注解方式下需要同包同名-->
+    <!--<mappers>
+        <package name="com.sonia.dao"/>
+    </mappers>-->
+
+    <!--mapper.xml注册方式三:注意点:非注解方式下需要同包同名-->
+    <mappers>
+        <mapper class="com.sonia.dao.UserMapper"></mapper>
+    </mappers>
+
+</configuration>
+
