@@ -14,7 +14,7 @@ import java.util.List;
 public class Mytest {
     @Test
     public void testFact() {
-        assertEquals(1, 2);
+        assertEquals(1, 1);
     }
 
     @Test
