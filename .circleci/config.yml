@@ -10,7 +10,7 @@ jobs: # a collection of steps
         environment:
           - MYSQL_ROOT_PASSWORD: qq@982709437
           - MYSQL_DATABASE: mybatis
-          - MYSQL_USER: user
+          - MYSQL_USER: root
           - MYSQL_PASSWORD: qq@982709437
 
     steps:

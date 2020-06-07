@@ -31,7 +31,6 @@ build/
 .vscode/
 
 ### DB ###
-db.properties
 **/log/**
 .log
 
