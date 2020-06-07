@@ -1,3 +1,5 @@
+[![Mybatis-Study](https://circleci.com/gh/SoniaChoo/Mybatis-Study.svg?style=svg)](https:///github.com/SoniaChoo/Mybatis-Study)
+
 ## 1.入门,第一个Mybatis程序
 - 在这里我遇到过的坑:
 
