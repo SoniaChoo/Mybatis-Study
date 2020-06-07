@@ -53,7 +53,26 @@
         </environment>-->
     </environments>
 
+    <!-- 以下这个是错误示范:
+    1.不能用.,需要用/,
+    2.注册的是接口实现类或者是xml文件,而不是接口
+     <mappers>
+         <mapper resource="com.sonia.dao.UserMapper"></mapper>
+     </mappers>-->
+    <!--mapper.xml注册方式一-->
+    <!--<mappers>
+        <mapper resource="com/sonia/dao/UserMapper.xml"></mapper>
+    </mappers>-->
+
+
+    <!--mapper.xml注册方式二:注意点:非注解方式下需要同包同名-->
+    <!--<mappers>
+        <package name="com.sonia.dao"/>
+    </mappers>-->
+
+    <!--mapper.xml注册方式三:注意点:非注解方式下需要同包同名-->
     <mappers>
+<!--        <mapper class="com.sonia.dao.StudentMapper"></mapper>-->
         <mapper class="com.sonia.dao.StudentMapper"></mapper>
     </mappers>
 

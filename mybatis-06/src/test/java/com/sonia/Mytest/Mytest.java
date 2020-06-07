@@ -12,15 +12,6 @@ import java.util.List;
 
 public class Mytest {
     @Test
-    public void getTeacherTest() {
-        SqlSession sqlSession = UserUtil.getSqlSession();
-        TeacherMapper mapper = sqlSession.getMapper(TeacherMapper.class);
-        Teacher teacher = mapper.getTeacher(1);
-        System.out.println(teacher);
-        sqlSession.close();
-    }
-
-    @Test
     public void getStudentTest() {
         SqlSession sqlSession = UserUtil.getSqlSession();
         StudentMapper mapper = sqlSession.getMapper(StudentMapper.class);
